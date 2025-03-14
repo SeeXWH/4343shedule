@@ -1,48 +1,206 @@
 {
-  "Monday": [{
-    "1" : {"name" : "", "description" : "", "type" : "" },
-    "2" : {"name" : "Теория автоматов", "description" : "", "type" : "lecture" },
-    "3" : {"name" : "Теория автоматов", "description" : "", "type" : "lab" },
-    "4" : {"name" : "Электроника", "description" : "Исаков просил прийти, будет проверка какая-то", "type" : "lecture" },
-    "5" : {"name" : "", "description" : "", "type" : "" },
-    "6" : {"name" : "", "description" : "", "type" : "" }
+  "Monday": [
+    {
+      "1": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "2": {
+        "name": "Теория автоматов",
+        "description": "",
+        "type": "lecture"
+      },
+      "3": {
+        "name": "Теория автоматов",
+        "description": "",
+        "type": "lab"
+      },
+      "4": {
+        "name": "Электроника",
+        "description": "none",
+        "type": "lecture"
+      },
+      "5": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "6": {
+        "name": "",
+        "description": "",
+        "type": ""
+      }
     }
   ],
-  "Tuesday": [{
-    "1" : {"name" : "", "description" : "", "type" : "" },
-    "2" : {"name" : "", "description" : "", "type" : "" },
-    "3" : {"name" : "Технология программирования", "description" : "", "type" : "lecture" },
-    "4" : {"name" : "", "description" : "", "type" : "" },
-    "5" : {"name" : "", "description" : "", "type" : "" },
-    "6" : {"name" : "Электротехника", "description" : "", "type" : "lab" }
-  }],
-  "Wednesday": [{
-    "1" : {"name" : "", "description" : "", "type" : "" },
-    "2" : {"name" : "Электроника", "description" : "", "type" : "lab" },
-    "3" : {"name" : "", "description" : "", "type" : "" },
-    "4" : {"name" : "Физ-ра", "description" : "", "type" : "practice" },
-    "5" : {"name" : "", "description" : "", "type" : "" },
-    "6" : {"name" : "", "description" : "", "type" : "" }
-  }],
-  "Thursday": [{
-    "1" : {"name" : "", "description" : "1", "type" : "" },
-    "2" : {"name" : "", "description" : "1", "type" : "" },
-    "3" : {"name" : "", "description" : "1", "type" : "" },
-    "4" : {"name" : "", "description" : "1", "type" : "" },
-    "5" : {"name" : "", "description" : "1", "type" : "" },
-    "6" : {"name" : "", "description" : "1", "type" : "" }}],
-  "Friday": [{
-    "1" : {"name" : "", "description" : "", "type" : "" },
-    "2" : {"name" : "", "description" : "", "type" : "" },
-    "3" : {"name" : "", "description" : "", "type" : "" },
-    "4" : {"name" : "", "description" : "", "type" : "" },
-    "5" : {"name" : "", "description" : "", "type" : "" },
-    "6" : {"name" : "", "description" : "", "type" : "" }}],
-  "Saturday": [{
-    "1" : {"name" : "", "description" : "", "type" : "" },
-    "2" : {"name" : "", "description" : "", "type" : "" },
-    "3" : {"name" : "", "description" : "", "type" : "" },
-    "4" : {"name" : "", "description" : "", "type" : "" },
-    "5" : {"name" : "Электротехника", "description" : "", "type" : "lecture" },
-    "6" : {"name" : "", "description" : "", "type" : "" }}]
+  "Tuesday": [
+    {
+      "1": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "2": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "3": {
+        "name": "Технология программирования",
+        "description": "",
+        "type": "lecture"
+      },
+      "4": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "5": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "6": {
+        "name": "Электротехника",
+        "description": "",
+        "type": "lab"
+      }
+    }
+  ],
+  "Wednesday": [
+    {
+      "1": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "2": {
+        "name": "Электроника",
+        "description": "",
+        "type": "lab"
+      },
+      "3": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "4": {
+        "name": "Физ-ра",
+        "description": "",
+        "type": "practice"
+      },
+      "5": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "6": {
+        "name": "",
+        "description": "",
+        "type": ""
+      }
+    }
+  ],
+  "Thursday": [
+    {
+      "1": {
+        "name": "",
+        "description": "1",
+        "type": ""
+      },
+      "2": {
+        "name": "",
+        "description": "1",
+        "type": ""
+      },
+      "3": {
+        "name": "",
+        "description": "1",
+        "type": ""
+      },
+      "4": {
+        "name": "",
+        "description": "1",
+        "type": ""
+      },
+      "5": {
+        "name": "",
+        "description": "1",
+        "type": ""
+      },
+      "6": {
+        "name": "",
+        "description": "1",
+        "type": ""
+      }
+    }
+  ],
+  "Friday": [
+    {
+      "1": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "2": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "3": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "4": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "5": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "6": {
+        "name": "",
+        "description": "",
+        "type": ""
+      }
+    }
+  ],
+  "Saturday": [
+    {
+      "1": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "2": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "3": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "4": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "5": {
+        "name": "Электротехника",
+        "description": "",
+        "type": "lecture"
+      },
+      "6": {
+        "name": "",
+        "description": "",
+        "type": ""
+      }
+    }
+  ]
 }

@@ -14,6 +14,7 @@ from aiogram.types import BotCommand, InlineKeyboardButton
 from aiogram.enums import ParseMode
 import pytz
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from pyexpat.errors import messages
 
 moscow_tz = pytz.timezone("Europe/Moscow")
 bot = Bot(token="8092647573:AAGnfcFZLW9znsqKQVITLzZs4xYw--efn1E")
@@ -40,7 +41,7 @@ class EditState:
 WEEKS = {"even": "Чётная неделя", "not_even": "Нечётная неделя"}
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 PAIRS = ["1", "2", "3", "4", "5", "6"]
-FIELDS = {"name": "Название", "description": "Описание", "type": "Тип"}
+FIELDS = {"name": "Название", "description": "Описание", "type": "Тип", "delete" : "Удалить"}
 TYPES = {"lecture": "Лекция (Л)", "practice": "Практика (Пр)", "lab": "Лабораторная (Лр)"}
 user_data = {}
 
@@ -137,6 +138,8 @@ def print_schedule(next_week: bool):
             time = times[key]
             name = value["name"]
             description = value["description"]
+            if description.lower() == "none":
+                description = ""
             if description != "":
                 description = "\n    ‼️ " + description
             type_ = type_mapping.get(value["type"], "")
@@ -163,8 +166,11 @@ def format_week_schedule(schedule: dict, week_title: str):
                 time = times[pair_number]
                 name = pair_info["name"]
                 description = pair_info["description"]
+                if description.lower() == "none":
+                    description = ""
                 if description != "":
                     description = "\n    ‼️ " + description
+
                 type_ = type_mapping.get(pair_info["type"], "")
                 formatted_schedule.append(f"    <b>{pair_number}</b>. {name} <b>{type_}</b>\n    <i>({time})</i>{description}")
                 has_pairs = True
@@ -330,8 +336,12 @@ async def cmd_edit(message: types.Message):
             builder.add(InlineKeyboardButton(text=label, callback_data=f"week:{week}"))
         builder.add(InlineKeyboardButton(text="Назад", callback_data="back"))
         builder.adjust(1)
-        await message.answer(print_not_even_week_schedule(), parse_mode=ParseMode.HTML)
-        await message.answer(print_even_week_schedule(), parse_mode=ParseMode.HTML)
+        if get_week_info().is_even_week:
+            await message.answer(print_even_week_schedule(), parse_mode=ParseMode.HTML)
+            await message.answer(print_not_even_week_schedule(), parse_mode=ParseMode.HTML)
+        else:
+            await message.answer(print_not_even_week_schedule(), parse_mode=ParseMode.HTML)
+            await message.answer(print_even_week_schedule(), parse_mode=ParseMode.HTML)
         await message.answer("Выберите неделю:", reply_markup=builder.as_markup())
 
 
@@ -381,6 +391,20 @@ async def process_field(callback: types.CallbackQuery):
         builder.add(InlineKeyboardButton(text="Назад", callback_data="back"))
         builder.adjust(1)
         await callback.message.edit_text("Выберите тип пары:", reply_markup=builder.as_markup())
+    elif field == "delete":
+        user_id = callback.from_user.id
+        week = user_data[user_id]["week"]
+        day = user_data[user_id]["day"]
+        pair = user_data[user_id]["pair"]
+
+        filename = "even.json" if week == "even" else "notEven.json"
+        schedule = load_schedule(filename)
+        schedule[day][0][pair]["name"] = ""
+        schedule[day][0][pair]["description"] = ""
+        schedule[day][0][pair]["type"] = ""
+        await callback.message.edit_text(f"Пара №{pair} в {day} удалена")
+        save_schedule(filename, schedule)
+        del user_data[user_id]
     else:
         await callback.message.edit_text(f"Введите новое значение для поля '{FIELDS[field]}':")
     await callback.answer()
@@ -407,7 +431,6 @@ async def process_type(callback: types.CallbackQuery):
 
 @dp.message()
 async def process_text(message: types.Message):
-    """Обработка ввода нового значения."""
     user_id = message.from_user.id
     if user_id in user_data:
         week = user_data[user_id]["week"]
@@ -431,7 +454,7 @@ async def process_text(message: types.Message):
 @dp.callback_query(lambda c: c.data == "back")
 async def process_back(callback: types.CallbackQuery):
     await callback.message.edit_text("Возврат в главное меню.")
-    await cmd_edit(callback.message)
+
 
 
 @dp.message()
