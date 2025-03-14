@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  bot:
+    container_name: tg-bot
+    build: .
+    restart: always
+    environment:
+      - BOT_TOKEN=8092647573:AAGnfcFZLW9znsqKQVITLzZs4xYw--efn1E
