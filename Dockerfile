@@ -1,4 +1,3 @@
-# Используем базовый образ Python
 FROM python:3.9-slim
 
 # Устанавливаем рабочую директорию
@@ -13,5 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем исходный код
 COPY . .
 
-# Команда для запуска бота
 CMD ["python", "main.py"]
