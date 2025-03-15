@@ -34,10 +34,13 @@ class EditState:
 
 
 WEEKS = {"even": "Чётная неделя", "not_even": "Нечётная неделя"}
-DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+DAYS = ["Monday", "Tuesday", "Wednesday",
+        "Thursday", "Friday", "Saturday", "Sunday"]
 PAIRS = ["1", "2", "3", "4", "5", "6"]
-FIELDS = {"name": "Название", "description": "Описание", "type": "Тип", "delete" : "Удалить"}
-TYPES = {"lecture": "Лекция (Л)", "practice": "Практика (Пр)", "lab": "Лабораторная (Лр)"}
+FIELDS = {"name": "Название", "description": "Описание",
+          "type": "Тип", "delete": "Удалить"}
+TYPES = {"lecture": "Лекция (Л)", "practice": "Практика (Пр)",
+         "lab": "Лабораторная (Лр)"}
 user_data = {}
 
 times = {
@@ -90,7 +93,8 @@ def get_week_info() -> WeekInfo:
     data = response.json()
 
     current_day = data['currentDay'] - 1
-    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    days = ["Monday", "Tuesday", "Wednesday",
+            "Thursday", "Friday", "Saturday", "Sunday"]
     day_name = days[current_day]
 
     is_even_week = data['currentWeek'] % 2 == 0
@@ -138,7 +142,8 @@ def print_schedule(next_week: bool):
             if description != "":
                 description = "\n    ‼️ " + description
             type_ = type_mapping.get(value["type"], "")
-            formatted_schedule.append(f"    <b>{key}</b>. {name} <b>{type_}</b>\n    <i>({time})</i>{description}")
+            formatted_schedule.append(
+                f"    <b>{key}</b>. {name} <b>{type_}</b>\n    <i>({time})</i>{description}")
 
     if len(formatted_schedule) == 1:
         formatted_schedule.append("    Пар нет, отдыхаем 🥳")
@@ -167,7 +172,8 @@ def format_week_schedule(schedule: dict, week_title: str):
                     description = "\n    ‼️ " + description
 
                 type_ = type_mapping.get(pair_info["type"], "")
-                formatted_schedule.append(f"    <b>{pair_number}</b>. {name} <b>{type_}</b>\n    <i>({time})</i>{description}")
+                formatted_schedule.append(
+                    f"    <b>{pair_number}</b>. {name} <b>{type_}</b>\n    <i>({time})</i>{description}")
                 has_pairs = True
 
         if not has_pairs:
@@ -242,7 +248,8 @@ def load_ids(filename: str):
 
 
 def get_next_day(current_day: str) -> str:
-    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    days = ["Monday", "Tuesday", "Wednesday",
+            "Thursday", "Friday", "Saturday", "Sunday"]
     current_index = days.index(current_day)
     next_index = (current_index + 1) % len(days)
     return days[next_index]
@@ -262,7 +269,8 @@ async def send_current_scheduled_messages():
                     await bot.send_message(user_id, "Расписание на завтра: \n" + print_schedule(True),
                                            parse_mode=ParseMode.HTML)
                 except Exception as e:
-                    print(f"Не удалось отправить сообщение пользователю {user_id}: {e}")
+                    print(
+                        f"Не удалось отправить сообщение пользователю {user_id}: {e}")
 
             chat_ids = load_ids("chats.txt")
             for chat_id in chat_ids:
@@ -272,7 +280,8 @@ async def send_current_scheduled_messages():
                     await bot.send_message(user_id, "Расписание на завтра: \n" + print_schedule(True),
                                            parse_mode=ParseMode.HTML)
                 except Exception as e:
-                    print(f"Не удалось отправить сообщение в чат {chat_id}: {e}")
+                    print(
+                        f"Не удалось отправить сообщение в чат {chat_id}: {e}")
 
         await asyncio.sleep(60)
 
@@ -328,7 +337,8 @@ async def cmd_edit(message: types.Message):
     elif user_id in admin:
         builder = InlineKeyboardBuilder()
         for week, label in WEEKS.items():
-            builder.add(InlineKeyboardButton(text=label, callback_data=f"week:{week}"))
+            builder.add(InlineKeyboardButton(
+                text=label, callback_data=f"week:{week}"))
         builder.add(InlineKeyboardButton(text="Назад", callback_data="back"))
         builder.adjust(1)
         if get_week_info().is_even_week:
@@ -352,16 +362,19 @@ async def process_week(callback: types.CallbackQuery):
     builder.adjust(2)
     await callback.message.edit_text("Выберите день недели:", reply_markup=builder.as_markup())
 
+
 @dp.callback_query(lambda c: c.data.startswith("day:"))
 async def process_day(callback: types.CallbackQuery):
     day = callback.data.split(":")[1]
     user_data[callback.from_user.id]["day"] = day
     builder = InlineKeyboardBuilder()
     for pair in PAIRS:
-        builder.add(InlineKeyboardButton(text=pair, callback_data=f"pair:{pair}"))
+        builder.add(InlineKeyboardButton(
+            text=pair, callback_data=f"pair:{pair}"))
     builder.add(InlineKeyboardButton(text="Назад", callback_data="back"))
     builder.adjust(3)
     await callback.message.edit_text("Выберите номер пары:", reply_markup=builder.as_markup())
+
 
 @dp.callback_query(lambda c: c.data.startswith("pair:"))
 async def process_pair(callback: types.CallbackQuery):
@@ -369,10 +382,12 @@ async def process_pair(callback: types.CallbackQuery):
     user_data[callback.from_user.id]["pair"] = pair
     builder = InlineKeyboardBuilder()
     for field, label in FIELDS.items():
-        builder.add(InlineKeyboardButton(text=label, callback_data=f"field:{field}"))
+        builder.add(InlineKeyboardButton(
+            text=label, callback_data=f"field:{field}"))
     builder.add(InlineKeyboardButton(text="Назад", callback_data="back"))
     builder.adjust(1)
     await callback.message.edit_text("Выберите поле для редактирования:", reply_markup=builder.as_markup())
+
 
 @dp.callback_query(lambda c: c.data.startswith("field:"))
 async def process_field(callback: types.CallbackQuery):
@@ -382,7 +397,8 @@ async def process_field(callback: types.CallbackQuery):
     if field == "type":
         builder = InlineKeyboardBuilder()
         for type_key, type_label in TYPES.items():
-            builder.add(InlineKeyboardButton(text=type_label, callback_data=f"type:{type_key}"))
+            builder.add(InlineKeyboardButton(
+                text=type_label, callback_data=f"type:{type_key}"))
         builder.add(InlineKeyboardButton(text="Назад", callback_data="back"))
         builder.adjust(1)
         await callback.message.edit_text("Выберите тип пары:", reply_markup=builder.as_markup())
@@ -404,6 +420,7 @@ async def process_field(callback: types.CallbackQuery):
         await callback.message.edit_text(f"Введите новое значение для поля '{FIELDS[field]}':")
     await callback.answer()
 
+
 @dp.callback_query(lambda c: c.data.startswith("type:"))
 async def process_type(callback: types.CallbackQuery):
     type_key = callback.data.split(":")[1]
@@ -423,6 +440,7 @@ async def process_type(callback: types.CallbackQuery):
         await callback.message.edit_text("Ошибка: день или пара не найдены.")
 
     del user_data[user_id]
+
 
 @dp.message()
 async def process_text(message: types.Message):
@@ -446,10 +464,10 @@ async def process_text(message: types.Message):
 
         del user_data[user_id]
 
+
 @dp.callback_query(lambda c: c.data == "back")
 async def process_back(callback: types.CallbackQuery):
     await callback.message.edit_text("Возврат в главное меню.")
-
 
 
 @dp.message()
