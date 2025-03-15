@@ -264,7 +264,7 @@ async def send_current_scheduled_messages():
                 try:
                     await bot.send_message(user_id, "Расписание на сегодня: \n" + print_schedule(False),
                                            parse_mode=ParseMode.HTML)
-                    await bot.send_message(user_id, print_schedule("Расписание на завтра: \n" + print_schedule(True)),
+                    await bot.send_message(user_id, "Расписание на завтра: \n" + print_schedule(False),
                                            parse_mode=ParseMode.HTML)
                 except Exception as e:
                     print(f"Не удалось отправить сообщение пользователю {user_id}: {e}")
@@ -272,9 +272,9 @@ async def send_current_scheduled_messages():
             chat_ids = load_ids("chats.txt")
             for chat_id in chat_ids:
                 try:
-                    await bot.send_message(chat_id, print_schedule("Расписание на сегодня: \n" + print_schedule(False)),
+                    await bot.send_message(user_id, "Расписание на сегодня: \n" + print_schedule(False),
                                            parse_mode=ParseMode.HTML)
-                    await bot.send_message(chat_id, print_schedule("Расписание на завтра: \n" + print_schedule(True)),
+                    await bot.send_message(user_id, "Расписание на завтра: \n" + print_schedule(False),
                                            parse_mode=ParseMode.HTML)
                 except Exception as e:
                     print(f"Не удалось отправить сообщение в чат {chat_id}: {e}")
