@@ -237,6 +237,10 @@ def save_threads_id(chat_id: int, thread_id):
 
 def del_threads_id(chat_id: int, thread_id):
     threads = load_schedule("threads.json")
+    if str(chat_id) not in threads:
+        return
+    if thread_id not in threads[str(chat_id)]:
+        return
     threads[str(chat_id)].pop(threads[str(chat_id)].index(thread_id))
     with open("threads.json", "w", encoding="utf-8") as file:
         json.dump(threads, file, ensure_ascii=False, indent=4)
