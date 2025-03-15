@@ -251,7 +251,7 @@ def get_next_day(current_day: str) -> str:
 async def send_current_scheduled_messages():
     while True:
         now = datetime.now(moscow_tz).time()
-        target_time = time(12, 45)
+        target_time = time(6, 0)
 
         if now.hour == target_time.hour and now.minute == target_time.minute:
             user_ids = load_ids("users.txt")
