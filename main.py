@@ -91,8 +91,10 @@ def get_week_info() -> WeekInfo:
         raise Exception(f"Ошибка запроса: {response.status_code}")
 
     data = response.json()
-
-    current_day = data['currentDay'] - 1
+    try:
+        current_day = data['currentDay'] - 1
+    except KeyError:
+        current_day = 6
     days = ["Monday", "Tuesday", "Wednesday",
             "Thursday", "Friday", "Saturday", "Sunday"]
     day_name = days[current_day]
@@ -123,14 +125,21 @@ def print_schedule(next_week: bool):
     else:
         day = info.day_name
     call_day = days[day]
+    if len(str(current_date.date().day)) == 1:
+        day_week = "0" + str(current_date.date().day)
+    else:
+        day_week = str(current_date.date().day)
+    if len(str(current_date.date().month)) == 1:
+        month = "0" + str(current_date.date().month)
+    else:
+        month = str(current_date.date().month)
     if day == "Sunday":
-        return "<b>" + call_day + "</b> (" + str(current_date.date().day) + "." + str(
-            current_date.date().month) + ")\n" + "    Пар нет, отдыхаем 🥳"
+        return "<b>" + call_day + "</b> (" + day_week + "." + month + ")\n" + "    Пар нет, отдыхаем 🥳"
     if day not in schedule:
         return "День недели не найден."
     day_schedule = schedule[day][0]
     formatted_schedule = [
-        "<b>" + call_day + "</b> (" + str(current_date.date().day) + "." + str(current_date.date().month) + ")"]
+        "<b>" + call_day + "</b> (" + day_week + "." + month + ")"]
 
     for key, value in day_schedule.items():
         if value["name"] and value["type"]:
