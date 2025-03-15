@@ -251,7 +251,7 @@ def get_next_day(current_day: str) -> str:
 async def send_current_scheduled_messages():
     while True:
         now = datetime.now(moscow_tz).time()
-        target_time = time(12, 8)
+        target_time = time(12, 45)
 
         if now.hour == target_time.hour and now.minute == target_time.minute:
             user_ids = load_ids("users.txt")
@@ -259,7 +259,7 @@ async def send_current_scheduled_messages():
                 try:
                     await bot.send_message(user_id, "Расписание на сегодня: \n" + print_schedule(False),
                                            parse_mode=ParseMode.HTML)
-                    await bot.send_message(user_id, "Расписание на завтра: \n" + print_schedule(False),
+                    await bot.send_message(user_id, "Расписание на завтра: \n" + print_schedule(True),
                                            parse_mode=ParseMode.HTML)
                 except Exception as e:
                     print(f"Не удалось отправить сообщение пользователю {user_id}: {e}")
@@ -269,7 +269,7 @@ async def send_current_scheduled_messages():
                 try:
                     await bot.send_message(user_id, "Расписание на сегодня: \n" + print_schedule(False),
                                            parse_mode=ParseMode.HTML)
-                    await bot.send_message(user_id, "Расписание на завтра: \n" + print_schedule(False),
+                    await bot.send_message(user_id, "Расписание на завтра: \n" + print_schedule(True),
                                            parse_mode=ParseMode.HTML)
                 except Exception as e:
                     print(f"Не удалось отправить сообщение в чат {chat_id}: {e}")
