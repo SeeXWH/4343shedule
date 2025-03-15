@@ -222,6 +222,26 @@ def save_user_id(user_id: int):
         with open("users.txt", "a") as file:
             file.write(f"{user_id}\n")
 
+def save_threads_id(chat_id: int, thread_id):
+    threads = load_schedule("threads.json")
+    if str(chat_id) not in threads:
+        threads[str(chat_id)] = []
+        threads[str(chat_id)].append(thread_id)
+    else:
+        if thread_id not in threads[str(chat_id)]:
+            threads[str(chat_id)].append(thread_id)
+
+    with open("threads.json", "w", encoding="utf-8") as file:
+        json.dump(threads, file, ensure_ascii=False, indent=4)
+
+
+def del_threads_id(chat_id: int, thread_id):
+    threads = load_schedule("threads.json")
+    threads[str(chat_id)].pop(threads[str(chat_id)].index(thread_id))
+    with open("threads.json", "w", encoding="utf-8") as file:
+        json.dump(threads, file, ensure_ascii=False, indent=4)
+    
+
 
 def save_chat_id(chat_id: int):
     chat_ids = load_ids("chats.txt")
@@ -267,7 +287,7 @@ def get_next_day(current_day: str) -> str:
 async def send_current_scheduled_messages():
     while True:
         now = datetime.now(moscow_tz).time()
-        target_time = time(6, 0)
+        target_time = time(1, 20)
 
         if now.hour == target_time.hour and now.minute == target_time.minute:
             user_ids = load_ids("users.txt")
@@ -281,16 +301,17 @@ async def send_current_scheduled_messages():
                     print(
                         f"Не удалось отправить сообщение пользователю {user_id}: {e}")
 
-            chat_ids = load_ids("chats.txt")
-            for chat_id in chat_ids:
-                try:
-                    await bot.send_message(user_id, "Расписание на сегодня: \n" + print_schedule(False),
-                                           parse_mode=ParseMode.HTML)
-                    await bot.send_message(user_id, "Расписание на завтра: \n" + print_schedule(True),
-                                           parse_mode=ParseMode.HTML)
-                except Exception as e:
-                    print(
-                        f"Не удалось отправить сообщение в чат {chat_id}: {e}")
+            chat_ids = load_schedule("threads.json")
+            for chat_id, thread in chat_ids.items():
+                for thread_id in thread:
+                    try:
+                        await bot.send_message(chat_id= int(chat_id), message_thread_id= thread_id, text= "Расписание на сегодня: \n" + print_schedule(False),
+                                            parse_mode=ParseMode.HTML)
+                        await bot.send_message(chat_id= int(chat_id), message_thread_id=thread_id, text= "Расписание на завтра: \n" + print_schedule(True),
+                                            parse_mode=ParseMode.HTML)
+                    except Exception as e:
+                        print(
+                            f"Не удалось отправить сообщение в чат {chat_id}: {e}")
 
         await asyncio.sleep(60)
 
@@ -303,8 +324,9 @@ async def cmd_start(message: types.Message):
 @dp.message(Command("mailing"))
 async def cmd_mailing(message: types.Message):
     chat_id = message.chat.id
+    thread_id = message.message_thread_id
     if message.chat.type in ["group", "supergroup", "channel"]:
-        save_chat_id(chat_id)
+        save_threads_id(chat_id=chat_id, thread_id=thread_id)
     user_id = message.from_user.id
     save_user_id(user_id)
     await message.answer("Теперь каждый день сюда буду присылать расписание!")
@@ -313,8 +335,9 @@ async def cmd_mailing(message: types.Message):
 @dp.message(Command("cancel"))
 async def cmd_cancel(message: types.Message):
     chat_id = message.chat.id
+    thread_id = message.message_thread_id
     if message.chat.type in ["group", "supergroup", "channel"]:
-        remove_chat_id(chat_id)
+        del_threads_id(chat_id=chat_id, thread_id=thread_id)
     user_id = message.from_user.id
     remove_user_id(user_id)
     await message.answer("Отменил рассылку!")
