@@ -2,19 +2,14 @@ import asyncio
 
 import requests
 from aiogram import Bot, Dispatcher, types
-from aiogram.filters import StateFilter
 from aiogram.filters.command import Command
 from dataclasses import dataclass
 import json
 from datetime import datetime, time, timedelta
-
-from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import BotCommand, InlineKeyboardButton
 from aiogram.enums import ParseMode
 import pytz
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from pyexpat.errors import messages
 
 moscow_tz = pytz.timezone("Europe/Moscow")
 bot = Bot(token="8092647573:AAGnfcFZLW9znsqKQVITLzZs4xYw--efn1E")
