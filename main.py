@@ -299,9 +299,9 @@ async def send_current_scheduled_messages():
             user_ids = load_ids("users.txt")
             for user_id in user_ids:
                 try:
-                    await bot.send_message(user_id, "Расписание на сегодня: \n" + print_schedule(False),
+                    await bot.send_message(user_id, "Расписание на сегодня MortyD14: \n" + print_schedule(False),
                                            parse_mode=ParseMode.HTML)
-                    await bot.send_message(user_id, "Расписание на завтра: \n" + print_schedule(True),
+                    await bot.send_message(user_id, "Расписание на завтра MortyD14: \n" + print_schedule(True),
                                            parse_mode=ParseMode.HTML)
                 except Exception as e:
                     print(
@@ -311,9 +311,9 @@ async def send_current_scheduled_messages():
             for chat_id, thread in chat_ids.items():
                 for thread_id in thread:
                     try:
-                        await bot.send_message(chat_id= int(chat_id), message_thread_id= thread_id, text= "Расписание на сегодня: \n" + print_schedule(False),
+                        await bot.send_message(chat_id= int(chat_id), message_thread_id= thread_id, text= "Расписание на сегодня MortyD14: \n" + print_schedule(False),
                                             parse_mode=ParseMode.HTML)
-                        await bot.send_message(chat_id= int(chat_id), message_thread_id=thread_id, text= "Расписание на завтра: \n" + print_schedule(True),
+                        await bot.send_message(chat_id= int(chat_id), message_thread_id=thread_id, text= "Расписание на завтра MortyD14: \n" + print_schedule(True),
                                             parse_mode=ParseMode.HTML)
                     except Exception as e:
                         print(
@@ -351,8 +351,8 @@ async def cmd_cancel(message: types.Message):
 
 @dp.message(Command("schedule"))
 async def cmd_schedule(message: types.Message):
-    await message.answer("Расписание на сегодня: \n" + print_schedule(False), parse_mode=ParseMode.HTML)
-    await message.answer("Расписание на завтра: \n" + print_schedule(True), parse_mode=ParseMode.HTML)
+    await message.answer("Расписание на сегодня MortyD14: \n" + print_schedule(False), parse_mode=ParseMode.HTML)
+    await message.answer("Расписание на завтра MortyD14: \n" + print_schedule(True), parse_mode=ParseMode.HTML)
 
 
 @dp.message(Command("all"))
