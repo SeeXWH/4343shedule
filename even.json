@@ -27,6 +27,11 @@
         "type": ""
       },
       "6": {
+        "name": "Базы данных",
+        "description": "лаба",
+        "type": "dist"
+      },
+      "7": {
         "name": "",
         "description": "",
         "type": ""
@@ -64,6 +69,11 @@
         "name": "Электротехника",
         "description": "",
         "type": "lab"
+      },
+      "7": {
+        "name": "Базы данных",
+        "description": "лекция",
+        "type": "dist"
       }
     }
   ],
@@ -95,6 +105,11 @@
         "type": ""
       },
       "6": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "7": {
         "name": "",
         "description": "",
         "type": ""
@@ -132,6 +147,11 @@
         "name": "",
         "description": "1",
         "type": ""
+      },
+      "7": {
+        "name": "",
+        "description": "",
+        "type": ""
       }
     }
   ],
@@ -166,6 +186,11 @@
         "name": "",
         "description": "",
         "type": ""
+      },
+      "7": {
+        "name": "",
+        "description": "",
+        "type": ""
       }
     }
   ],
@@ -197,6 +222,11 @@
         "type": "lecture"
       },
       "6": {
+        "name": "",
+        "description": "",
+        "type": ""
+      },
+      "7": {
         "name": "",
         "description": "",
         "type": ""
